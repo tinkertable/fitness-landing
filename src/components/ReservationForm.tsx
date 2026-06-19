@@ -3,7 +3,6 @@
 import { useActionState } from "react";
 import { submitReservation, type ReservationState } from "@/app/actions";
 import { programs, site } from "@/lib/site";
-import { SectionHeading } from "./SectionHeading";
 
 const initialState: ReservationState | null = null;
 
@@ -15,46 +14,26 @@ export function ReservationForm() {
 
   return (
     <section id="reserve" className="border-t border-line bg-sand-deep scroll-mt-20">
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 sm:py-28 lg:grid-cols-2">
-        {/* 좌측: 안내 */}
-        <div className="text-ink">
+      {/* 풀폭 싱글 컬럼 CTA (1호의 좌우 분할과 차별화) */}
+      <div className="mx-auto max-w-2xl px-6 py-20 sm:py-28">
+        <div className="text-center">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-clay">
             Reservation
           </span>
-          <h2 className="mt-3 font-serif text-3xl font-black leading-tight sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-black leading-tight text-ink sm:text-4xl">
             39,000원으로
             <br />
             첫 변화를 시작하세요
           </h2>
-          <p className="mt-5 max-w-md leading-relaxed text-ink/70">
+          <p className="mx-auto mt-5 max-w-md leading-relaxed text-ink-soft">
             아래 정보를 남겨주시면 영업시간 내 연락드려 일정을 잡아드립니다.
             상담은 부담 없이, 등록 강요는 절대 없습니다.
           </p>
-
-          <dl className="mt-8 space-y-4 text-sm">
-            <div className="flex items-center gap-3">
-              <span className="text-clay">전화</span>
-              <a href={site.phoneHref} className="font-semibold hover:underline">
-                {site.phone}
-              </a>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-clay">위치</span>
-              <span className="text-ink/85">{site.address}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-clay">운영</span>
-              <span className="text-ink/85">
-                {site.hours.map((h) => `${h.day} ${h.time}`).join(" · ")}
-              </span>
-            </div>
-          </dl>
         </div>
 
-        {/* 우측: 폼 */}
-        <div className="rounded-3xl border border-line bg-cream p-7 sm:p-8">
+        <div className="mt-10 rounded-3xl border border-line bg-cream p-7 sm:p-8">
           {state?.ok ? (
-            <div className="flex h-full min-h-72 flex-col items-center justify-center text-center">
+            <div className="flex min-h-72 flex-col items-center justify-center text-center">
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-moss/15 text-moss-deep">
                 <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m5 13 4 4L19 7" />
@@ -118,7 +97,7 @@ export function ReservationForm() {
               <button
                 type="submit"
                 disabled={pending}
-                className="w-full rounded-full bg-ink py-3.5 text-base font-semibold text-cream transition-colors hover:bg-moss-deep disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-full bg-moss py-3.5 text-base font-bold text-cream shadow-md shadow-moss/20 transition-colors hover:bg-moss-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {pending ? "접수 중…" : "체험 예약 신청하기"}
               </button>
@@ -128,6 +107,14 @@ export function ReservationForm() {
               </p>
             </form>
           )}
+        </div>
+
+        {/* 연락처 정보 */}
+        <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-muted">
+          <a href={site.phoneHref} className="hover:text-moss">
+            {site.phone}
+          </a>
+          <span>{site.address}</span>
         </div>
       </div>
     </section>

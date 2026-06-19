@@ -32,16 +32,29 @@ export function Features() {
           title="왜 포지에서 결과가 나올까"
           center
         />
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+
+        {/* 2×2 대형 카드 그리드 (1호의 4컬럼 소형 아이콘과 차별화) */}
+        <div className="mt-12 grid gap-5 sm:grid-cols-2">
           {features.map((f) => (
-            <div key={f.title} className="text-center sm:text-left">
-              <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-moss/15 text-moss-deep sm:mx-0">
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <div
+              key={f.title}
+              className="rounded-2xl border border-line bg-cream p-8 transition-transform hover:-translate-y-0.5"
+            >
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-moss/15 text-moss-deep">
+                <svg
+                  className="h-7 w-7"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d={f.icon} />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-ink">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">{f.desc}</p>
+              <h3 className="text-xl font-bold text-ink">{f.title}</h3>
+              <p className="mt-3 leading-relaxed text-ink-soft">{f.desc}</p>
             </div>
           ))}
         </div>

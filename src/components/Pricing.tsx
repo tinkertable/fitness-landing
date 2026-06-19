@@ -12,40 +12,42 @@ export function Pricing() {
           center
         />
 
-        <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-3">
+        {/* 수평 비교형 카드 (1호의 3컬럼 세로 카드와 차별화) */}
+        <div className="mt-12 space-y-4">
           {pricing.map((p) => (
             <div
               key={p.name}
-              className={`relative flex flex-col rounded-3xl border p-8 ${
+              className={`grid items-center gap-6 rounded-2xl border p-6 sm:p-8 md:grid-cols-[1fr_2fr_auto] ${
                 p.highlight
-                  ? "border-moss bg-ink text-cream shadow-2xl shadow-ink/20 lg:-translate-y-3"
+                  ? "border-moss bg-moss/10 shadow-lg shadow-moss/10"
                   : "border-line bg-cream"
               }`}
             >
-              {p.highlight && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-moss px-4 py-1 text-xs font-bold text-cream">
-                  추천
-                </span>
-              )}
-              <h3
-                className={`text-lg font-bold ${p.highlight ? "text-cream" : "text-ink"}`}
-              >
-                {p.name}
-              </h3>
-              <div className="mt-4 flex items-baseline gap-2">
-                <span className="font-serif text-3xl font-bold">{p.price}</span>
+              {/* 좌: 플랜 이름 + 가격 */}
+              <div>
+                <div className="flex items-center gap-3">
+                  <h3 className="text-lg font-bold text-ink">{p.name}</h3>
+                  {p.highlight && (
+                    <span className="rounded-full bg-moss px-3 py-1 text-xs font-bold text-cream">
+                      추천
+                    </span>
+                  )}
+                </div>
+                <div className="mt-2 text-3xl font-black text-ink">
+                  {p.price}
+                </div>
+                <p className="mt-1 text-sm text-muted">{p.note}</p>
               </div>
-              <p
-                className={`mt-1 text-sm ${p.highlight ? "text-cream/70" : "text-muted"}`}
-              >
-                {p.note}
-              </p>
 
-              <ul className="mt-6 flex-1 space-y-3 border-t border-line pt-6 text-sm">
+              {/* 중: 포함 내역 (가로 나열) */}
+              <ul className="flex flex-wrap gap-2">
                 {p.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5">
+                  <li
+                    key={f}
+                    className="flex items-center gap-1.5 rounded-full border border-line bg-sand/60 px-3.5 py-1.5 text-sm text-ink-soft"
+                  >
                     <svg
-                      className={`mt-0.5 h-4 w-4 shrink-0 ${p.highlight ? "text-cream" : "text-moss"}`}
+                      className="h-3.5 w-3.5 shrink-0 text-moss"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -55,18 +57,17 @@ export function Pricing() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className={p.highlight ? "text-cream/85" : "text-ink-soft"}>
-                      {f}
-                    </span>
+                    {f}
                   </li>
                 ))}
               </ul>
 
+              {/* 우: CTA */}
               <a
                 href="#reserve"
-                className={`mt-8 rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform hover:-translate-y-0.5 ${
+                className={`rounded-full px-7 py-3 text-center text-sm font-semibold transition-transform hover:-translate-y-0.5 ${
                   p.highlight
-                    ? "bg-cream text-ink hover:bg-sand"
+                    ? "bg-moss text-cream shadow-md shadow-moss/20"
                     : "bg-ink text-cream hover:bg-moss-deep"
                 }`}
               >
