@@ -44,15 +44,27 @@ export async function submitReservation(
     receivedAt: new Date().toISOString(),
   };
 
-  // TODO: 여기에 실제 연동 코드를 추가하세요. 예시(슬랙 웹훅):
-  //
-  //   await fetch(process.env.SLACK_WEBHOOK_URL!, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       text: `📩 새 체험 예약\n이름: ${name}\n연락처: ${phone}\n프로그램: ${program}\n메모: ${memo}`,
-  //     }),
-  //   });
+  // 슬랙 웹훅 알림 (환경변수가 있을 때만 전송)
+  if (process.env.SLACK_WEBHOOK_URL) {
+    try {
+      await fetch(process.env.SLACK_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: [
+            `📩 *새 체험 예약*`,
+            `• 이름: ${name}`,
+            `• 연락처: ${phone}`,
+            `• 프로그램: ${program || "미선택"}`,
+            `• 메모: ${memo || "-"}`,
+            `• 접수: ${payload.receivedAt}`,
+          ].join("\n"),
+        }),
+      });
+    } catch (e) {
+      console.error("[슬랙 웹훅 실패]", e);
+    }
+  }
 
   console.log("[예약 신청 접수]", payload);
 
