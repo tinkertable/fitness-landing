@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/*
+  ─────────────────────────────────────────────
+  디자인 토큰 — 색/폰트만 여기서 바꾸면 전체 톤이 바뀝니다.
+  (포지 PT: 다크 + 네온 라임 — 강하고 역동적인 PT 톤)
+  ─────────────────────────────────────────────
+*/
+@theme {
+  --color-cream: #0e0f0c;        /* 메인 배경(다크) */
+  --color-sand: #15160f;         /* 보조 섹션 배경 */
+  --color-sand-deep: #20221a;    /* 카드/그라데이션 */
+  --color-ink: #f1f3ea;          /* 본문 텍스트(라이트) */
+  --color-ink-soft: #b9bcae;
+  --color-muted: #7e8175;
+  --color-moss: #b6f23d;         /* 네온 라임 포인트 */
+  --color-moss-deep: #cdf968;    /* 큰 숫자/강조 */
+  --color-clay: #ff6a3d;         /* 보조 포인트(주황) */
+  --color-line: #2b2d22;         /* 다크 보더 */
+
+  --font-sans: var(--font-noto-kr), ui-sans-serif, system-ui, sans-serif;
+  /* 헤딩도 굵은 sans로 (스포티) */
+  --font-serif: var(--font-noto-kr), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 진입 애니메이션 (스크롤 시 페이드업) */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 폼 입력 공통 스타일 */
+.input {
+  width: 100%;
+  border-radius: 0.875rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-sand);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input::placeholder {
+  color: var(--color-muted);
+}
+.input:focus {
+  border-color: var(--color-moss);
+  box-shadow: 0 0 0 3px rgba(182, 242, 61, 0.18);
+}
