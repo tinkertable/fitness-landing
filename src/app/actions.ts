@@ -44,25 +44,60 @@ export async function submitReservation(
     receivedAt: new Date().toISOString(),
   };
 
-  // 슬랙 웹훅 알림 (환경변수가 있을 때만 전송)
+  // 알림에 공통으로 쓰는 제목/본문 라인
+  const title = "새 체험 예약";
+  const lines = [
+    `• 이름: ${name}`,
+    `• 연락처: ${phone}`,
+    `• 프로그램: ${payload.program}`,
+    `• 메모: ${payload.memo}`,
+    `• 접수: ${payload.receivedAt}`,
+  ];
+
+  // 1) 슬랙 웹훅 알림 (SLACK_WEBHOOK_URL)
   if (process.env.SLACK_WEBHOOK_URL) {
     try {
       await fetch(process.env.SLACK_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text: [
-            `📩 *새 체험 예약*`,
-            `• 이름: ${name}`,
-            `• 연락처: ${phone}`,
-            `• 프로그램: ${program || "미선택"}`,
-            `• 메모: ${memo || "-"}`,
-            `• 접수: ${payload.receivedAt}`,
-          ].join("\n"),
-        }),
+        body: JSON.stringify({ text: [`📩 *${title}*`, ...lines].join("\n") }),
       });
     } catch (e) {
       console.error("[슬랙 웹훅 실패]", e);
+    }
+  }
+
+  // 2) 이메일 알림 (Resend REST API — RESEND_API_KEY + OWNER_EMAIL)
+  if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
+    try {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: process.env.NOTIFY_FROM_EMAIL || "예약알림 <onboarding@resend.dev>",
+          to: process.env.OWNER_EMAIL,
+          subject: `[${title}] ${name}님`,
+          text: lines.join("\n"),
+        }),
+      });
+    } catch (e) {
+      console.error("[이메일 전송 실패]", e);
+    }
+  }
+
+  // 3) 구글시트 기록 (Apps Script 웹앱 URL — SHEETS_WEBHOOK_URL)
+  if (process.env.SHEETS_WEBHOOK_URL) {
+    try {
+      await fetch(process.env.SHEETS_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {
+      console.error("[구글시트 기록 실패]", e);
     }
   }
 
