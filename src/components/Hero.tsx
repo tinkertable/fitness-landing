@@ -43,16 +43,16 @@ export function Hero() {
           다이어트·바디프로필·재활 — 목표까지 가장 빠른 길.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
           <a
             href="#reserve"
-            className="rounded-full bg-moss px-8 py-4 text-base font-bold text-cream shadow-lg shadow-moss/20 transition-transform hover:-translate-y-0.5"
+            className="w-full rounded-full bg-moss px-8 py-4 text-center text-base font-bold text-cream shadow-lg shadow-moss/20 transition-transform hover:-translate-y-0.5 sm:w-auto"
           >
             39,000원 체험 PT 예약
           </a>
           <a
             href={site.phoneHref}
-            className="rounded-full border border-line px-8 py-4 text-base font-semibold text-ink transition-colors hover:border-moss hover:text-moss"
+            className="w-full rounded-full border border-line px-8 py-4 text-center text-base font-semibold text-ink transition-colors hover:border-moss hover:text-moss sm:w-auto"
           >
             {site.phone}
           </a>
